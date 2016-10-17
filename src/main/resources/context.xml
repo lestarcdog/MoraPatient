@@ -5,6 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config></context:annotation-config>
+    <context:property-placeholder location="/main.properties"/>
 
     <bean id="sceneManager" class="hu.mora.scene.SceneManager"/>
     <bean id="appContext" class="hu.mora.context.ApplicationUserContext"/>
@@ -12,5 +13,23 @@
     <!-- Page Controllers -->
     <bean id="login.controller" class="hu.mora.pages.login.LoginController"/>
     <bean id="patient.list.controller" class="hu.mora.pages.patient.ListPatientsController"/>
+
+
+    <!--App Java FX Services-->
+
+
+    <bean id="taskexecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="maxPoolSize" value="2"/>
+    </bean>
+
+
+    <!-- <bean id="datasource" class="org.h2.jdbcx.JdbcDataSource">
+         <property name="URL" value="${jdbc.url}" />
+         <property name="user" value="${jdbc.username}" />
+         <property name="password" value="${jdbc.password}" />
+     </bean>
+     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+         <constructor-arg name="dataSource" ref="datasource" />
+     </bean>-->
 
 </beans>
