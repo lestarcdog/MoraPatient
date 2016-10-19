@@ -6,6 +6,7 @@ import hu.mora.scene.AppScene;
 import hu.mora.scene.SceneManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,6 +43,8 @@ public class ListPatientsController implements Initializable {
 
     private String lastSearch;
 
+    private FilteredList<ListPatient> filteredPatients;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -71,7 +74,9 @@ public class ListPatientsController implements Initializable {
 
         patientTable.setEditable(true);
         patientTable.getColumns().addAll(nameColumn, birthDateColumn, phoneColumn, lastModifiedColumn, actionsColumn);
-        patientTable.setItems(items);
+
+        filteredPatients = new FilteredList<>(items);
+        patientTable.setItems(filteredPatients);
     }
 
     public void newPatient(ActionEvent actionEvent) {
@@ -126,9 +131,9 @@ public class ListPatientsController implements Initializable {
 
     public void search() {
         String currentSearch = searchField.getText();
-        if (lastSearch == null || !lastSearch.equals(currentSearch)) {
-            LOG.info("{}", searchField.getText());
-            lastSearch = currentSearch;
+        if (lastSearch == null || !lastSearch.equalsIgnoreCase(currentSearch)) {
+            lastSearch = currentSearch.toLowerCase();
+            filteredPatients.setPredicate(lp -> lp.getSmallCapitalName().contains(lastSearch));
         }
     }
 }

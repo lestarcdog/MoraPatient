@@ -6,6 +6,7 @@ import hu.mora.springloader.SpringFxmlLoader;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ public class MoraPatientMain extends Application {
         InputStream loginScreenFxml = MoraPatientMain.class.getResourceAsStream(AppScene.PATIENT_DATA.getFxmlPath());
         Parent parent = SpringFxmlLoader.load(loginScreenFxml);
 
+        primaryStage.getIcons().add(new Image("graphics/mora_icon.jpg"));
         primaryStage.setTitle(AppScene.LOGIN.getSceneTitle());
         primaryStage.setScene(new Scene(parent));
 

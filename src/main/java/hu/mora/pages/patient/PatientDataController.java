@@ -2,6 +2,8 @@ package hu.mora.pages.patient;
 
 import com.google.common.base.Strings;
 import hu.mora.model.PatientData;
+import hu.mora.scene.AppScene;
+import hu.mora.scene.SceneManager;
 import hu.mora.util.DateFormats;
 import hu.mora.util.FXUtils;
 import javafx.collections.FXCollections;
@@ -14,15 +16,22 @@ import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.TemporalQueries;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class PatientDataController implements Initializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(PatientDataController.class);
+
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^[\\d-\\s.]+$");
+
+    @Autowired
+    private SceneManager sceneManager;
 
     @FXML
     private Label invalidFormText;
@@ -51,6 +60,7 @@ public class PatientDataController implements Initializable {
     @FXML
     private TextField street;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         birthDate.setConverter(new StringConverter<LocalDate>() {
@@ -71,8 +81,7 @@ public class PatientDataController implements Initializable {
 
         city.setItems(FXCollections.observableArrayList("aa", "aaaa", "bbb", "ccc", "csabi", "móczy", "AAAA", "bbb"));
 
-        FXUtils.autoCompleteComboBoxPlus(city, (typedText, objectToCompare) -> objectToCompare.toLowerCase().startsWith(typedText
-        ));
+        FXUtils.autoCompleteComboBoxPlus(city, (typedText, objectToCompare) -> objectToCompare.toLowerCase().startsWith(typedText));
     }
 
     private boolean validate() {
@@ -99,7 +108,7 @@ public class PatientDataController implements Initializable {
             removeError(birthDate);
         }
 
-        if (Strings.isNullOrEmpty(phone.getText())) {
+        if (Strings.isNullOrEmpty(phone.getText()) || !PHONE_PATTERN.matcher(phone.getText()).matches()) {
             valid = false;
             addError(phone);
         } else {
@@ -135,7 +144,22 @@ public class PatientDataController implements Initializable {
         boolean isMale = ((RadioButton) gender.getSelectedToggle()).getText().equals(GenderRadioButtonText.MALE);
         patient.setMale(isMale);
 
+        patient.setPhone(phone.getText());
+
+        String city = this.city.getValue();
+        if (!Strings.isNullOrEmpty(city)) {
+            patient.setCity(city);
+        }
+
+        String streetTxt = street.getText();
+        if (!Strings.isNullOrEmpty(streetTxt)) {
+            patient.setStreet(streetTxt);
+        }
+
         return patient;
     }
 
+    public void cancel(ActionEvent actionEvent) {
+        sceneManager.showScene(AppScene.LIST_PATIENT);
+    }
 }

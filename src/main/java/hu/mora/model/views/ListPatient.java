@@ -18,6 +18,7 @@ public class ListPatient {
 
     private final Integer id;
     private final SimpleStringProperty name;
+    private final String smallCapitalName;
     private final SimpleStringProperty birthDate;
     private final SimpleStringProperty phone;
     private final SimpleStringProperty lastModified;
@@ -25,6 +26,7 @@ public class ListPatient {
     public ListPatient(Integer id, String name, LocalDate birthDate, String phone, LocalDateTime lastModified) {
         this.id = id;
         this.name = new SimpleStringProperty(name);
+        this.smallCapitalName = name.toLowerCase();
         this.birthDate = new SimpleStringProperty(birthDate.format(DateFormats.DAY));
         this.phone = new SimpleStringProperty(phone);
         this.lastModified = new SimpleStringProperty(lastModified.format(DateFormats.DATETIME));
@@ -67,6 +69,10 @@ public class ListPatient {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getSmallCapitalName() {
+        return smallCapitalName;
     }
 
     @Override

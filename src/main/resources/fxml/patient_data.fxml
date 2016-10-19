@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <GridPane fx:controller="hu.mora.pages.patient.PatientDataController"
-          xmlns:fx="http://javafx.com/fxml" stylesheets="@/fxml/main.css" alignment="center" minWidth="500">
+          xmlns:fx="http://javafx.com/fxml" stylesheets="@/fxml/main.css" alignment="center" minHeight="500" minWidth="400">
 
     <ScrollPane GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS">
         <padding>
@@ -57,7 +57,8 @@
             <Label fx:id="invalidFormText" GridPane.rowIndex="9" GridPane.columnIndex="0"
                    text="Hibás kitöltés. Javítsa a pirossal jelzett mezőket!"
                    styleClass="errorText" GridPane.columnSpan="2" visible="false"/>
-            <Button GridPane.rowIndex="10" GridPane.columnIndex="0" GridPane.columnSpan="2" text="Mentés" onAction="#save"/>
+            <Button GridPane.rowIndex="10" GridPane.columnIndex="0" text="Mentés" onAction="#save" styleClass="btn-primary"/>
+            <Button GridPane.rowIndex="10" GridPane.columnIndex="1" text="Mégse" onAction="#cancel" styleClass="btn-warning"/>
         </GridPane>
 
     </ScrollPane>
