@@ -1,34 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import hu.mora.pages.patient.GenderRadioButtonText?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.web.HTMLEditor?>
-<GridPane fx:controller="hu.mora.controller.TestController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <padding>
-        <Insets top="25" right="25" bottom="10" left="25"/>
-    </padding>
+<GridPane fx:controller="hu.mora.pages.patient.PatientDataController"
+          xmlns:fx="http://javafx.com/fxml" stylesheets="@/fxml/main.css" alignment="center" minWidth="500">
 
-    <Text text="Welcome"
-          GridPane.columnIndex="0" GridPane.rowIndex="0"
-          GridPane.columnSpan="2"/>
+    <ScrollPane GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS">
+        <padding>
+            <Insets top="25" right="25" bottom="10" left="25"/>
+        </padding>
+        <GridPane vgap="20" hgap="20">
+            <!-- NAME -->
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Neve:"/>
+            <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="name"/>
 
-    <Label text="User Name:"
-           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <!-- GENDER -->
+            <fx:define>
+                <ToggleGroup fx:id="gender"/>
+            </fx:define>
+            <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Neme:"/>
+            <HBox GridPane.rowIndex="1" GridPane.columnIndex="1" spacing="10" fx:id="genderGroup">
+                <RadioButton text="Nő" selected="true" toggleGroup="$gender">
+                    <text>
+                        <GenderRadioButtonText fx:constant="FEMALE"/>
+                    </text>
+                </RadioButton>
+                <RadioButton toggleGroup="$gender">
+                    <text>
+                        <GenderRadioButtonText fx:constant="MALE"/>
+                    </text>
+                </RadioButton>
+            </HBox>
 
-    <TextField
-        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <!-- BIRTH DATE -->
+            <Label GridPane.rowIndex="2" GridPane.columnIndex="0" text="Születési idő"/>
+            <DatePicker fx:id="birthDate" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="éééé.hh.nn"/>
 
-    <Label text="Password:"
-           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Separator GridPane.rowIndex="3" GridPane.columnSpan="2" halignment="CENTER"/>
 
-    <PasswordField fx:id="passwordField"
-                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <!-- PHONE -->
+            <Label GridPane.rowIndex="4" GridPane.columnIndex="0" text="Telefonszám"/>
+            <TextField fx:id="phone" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="0630/1234-567"/>
 
-    <Button GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#onSubmit" text="Press mee"/>
+            <Separator GridPane.rowIndex="5" GridPane.columnSpan="2" halignment="CENTER"/>
 
-    <HTMLEditor GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Label GridPane.rowIndex="6" GridPane.columnIndex="0" text="Lakhely"/>
+            <Label GridPane.rowIndex="7" GridPane.columnIndex="0" text="Település"/>
+            <ComboBox fx:id="city" GridPane.rowIndex="7" GridPane.columnIndex="1" promptText="település"/>
+
+            <Label GridPane.rowIndex="8" GridPane.columnIndex="0" text="Utca"/>
+            <TextField fx:id="street" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+
+            <Label fx:id="invalidFormText" GridPane.rowIndex="9" GridPane.columnIndex="0"
+                   text="Hibás kitöltés. Javítsa a pirossal jelzett mezőket!"
+                   styleClass="errorText" GridPane.columnSpan="2" visible="false"/>
+            <Button GridPane.rowIndex="10" GridPane.columnIndex="0" GridPane.columnSpan="2" text="Mentés" onAction="#save"/>
+        </GridPane>
+
+    </ScrollPane>
+
 
 </GridPane>

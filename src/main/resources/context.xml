@@ -13,6 +13,7 @@
     <!-- Page Controllers -->
     <bean id="login.controller" class="hu.mora.pages.login.LoginController"/>
     <bean id="patient.list.controller" class="hu.mora.pages.patient.ListPatientsController"/>
+    <bean id="patient.data.controller" class="hu.mora.pages.patient.PatientDataController"/>
 
 
     <!--App Java FX Services-->

@@ -1,5 +1,8 @@
-package hu.mora.model;
+package hu.mora.model.views;
 
+/**
+ * Login screen therapist ComboBox
+ */
 public class LoginTherapist {
     private Integer userId;
     private String name;

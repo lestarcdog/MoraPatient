@@ -22,7 +22,7 @@ public class MoraPatientMain extends Application {
         LOG.info("Init application with login screen");
 
         //do it manually from non spring bean
-        InputStream loginScreenFxml = MoraPatientMain.class.getResourceAsStream(AppScene.LIST_PATIENT.getFxmlPath());
+        InputStream loginScreenFxml = MoraPatientMain.class.getResourceAsStream(AppScene.PATIENT_DATA.getFxmlPath());
         Parent parent = SpringFxmlLoader.load(loginScreenFxml);
 
         primaryStage.setTitle(AppScene.LOGIN.getSceneTitle());

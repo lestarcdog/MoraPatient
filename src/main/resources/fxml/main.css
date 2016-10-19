@@ -1,0 +1,8 @@
+.errorText {
+    -fx-text-fill: red;
+}
+
+.error {
+    -fx-border-color: indianred;
+    -fx-border-width: 2px;
+}

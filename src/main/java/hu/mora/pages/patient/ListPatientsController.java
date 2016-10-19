@@ -1,8 +1,12 @@
 package hu.mora.pages.patient;
 
-import hu.mora.model.ListPatient;
+import hu.mora.context.ApplicationUserContext;
+import hu.mora.model.views.ListPatient;
+import hu.mora.scene.AppScene;
+import hu.mora.scene.SceneManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -12,11 +16,13 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.stream.IntStream;
 
 public class ListPatientsController implements Initializable {
 
@@ -25,18 +31,27 @@ public class ListPatientsController implements Initializable {
     @FXML
     private TextField searchField;
 
-    private String lastSearch;
-
     @FXML
     private TableView<ListPatient> patientTable;
+
+    @Autowired
+    private ApplicationUserContext userContext;
+
+    @Autowired
+    private SceneManager sceneManager;
+
+    private String lastSearch;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ObservableList<ListPatient> items = FXCollections.observableArrayList(
-                new ListPatient(1, "csabi", LocalDate.now(), "1234-45987", LocalDateTime.now()),
-                new ListPatient(2, "dr juharos ágota", LocalDate.now(), "1234-45987", LocalDateTime.now()),
-                new ListPatient(3, "móczy a kutya", LocalDate.now(), "1234-45987", LocalDateTime.now()));
+        ObservableList<ListPatient> items = FXCollections.observableArrayList();
+        IntStream.range(0, 20).forEach(i -> {
+            items.addAll(
+                    new ListPatient(1, "csabi", LocalDate.now(), "1234-45987", LocalDateTime.now()),
+                    new ListPatient(2, "dr juharos ágota", LocalDate.now(), "1234-45987", LocalDateTime.now()),
+                    new ListPatient(3, "móczy a kutya", LocalDate.now(), "1234-45987", LocalDateTime.now()));
+        });
 
         TableColumn<ListPatient, String> nameColumn = new TableColumn<>("Név");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>(ListPatient.NAME_COLUMN));
@@ -59,6 +74,10 @@ public class ListPatientsController implements Initializable {
         patientTable.setItems(items);
     }
 
+    public void newPatient(ActionEvent actionEvent) {
+        sceneManager.showScene(AppScene.PATIENT_DATA);
+    }
+
     private class ActionButtons extends TableCell<ListPatient, String> {
 
         private final Button editUser;
@@ -70,8 +89,17 @@ public class ListPatientsController implements Initializable {
             goTherapy = new Button("Terápia");
 
 
-            goTherapy.setOnAction(action -> LOG.info("go to terapia {}", currentPatient()));
-            editUser.setOnAction(action -> LOG.info("szerkeszt {}", currentPatient()));
+            goTherapy.setOnAction(action -> {
+                ListPatient patient = currentPatient();
+                LOG.debug("Therapy action for {}", patient);
+                sceneManager.showScene(AppScene.PATIENT_THERAPY);
+
+            });
+            editUser.setOnAction(action -> {
+                ListPatient patient = currentPatient();
+                LOG.debug("Edit action for {}", patient);
+                sceneManager.showScene(AppScene.PATIENT_DATA);
+            });
 
             graphics = new HBox(goTherapy, editUser);
             graphics.setSpacing(5.0);
@@ -80,7 +108,9 @@ public class ListPatientsController implements Initializable {
         }
 
         private ListPatient currentPatient() {
-            return (ListPatient) getTableRow().getItem();
+            ListPatient patient = (ListPatient) getTableRow().getItem();
+            userContext.setPatientId(patient.getId());
+            return patient;
         }
 
         @Override

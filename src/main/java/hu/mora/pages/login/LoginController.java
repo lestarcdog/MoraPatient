@@ -1,7 +1,7 @@
 package hu.mora.pages.login;
 
 import hu.mora.context.ApplicationUserContext;
-import hu.mora.model.LoginTherapist;
+import hu.mora.model.views.LoginTherapist;
 import hu.mora.scene.AppScene;
 import hu.mora.scene.SceneManager;
 import javafx.collections.FXCollections;

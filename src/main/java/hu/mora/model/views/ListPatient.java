@@ -1,4 +1,4 @@
-package hu.mora.model;
+package hu.mora.model.views;
 
 import hu.mora.util.DateFormats;
 import javafx.beans.property.SimpleStringProperty;
@@ -6,6 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * For the TableView display
+ */
 public class ListPatient {
 
     public static final String NAME_COLUMN = "name";
@@ -62,14 +65,18 @@ public class ListPatient {
         return lastModified;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "ListPatient{" +
                 "id=" + id +
-                ", name=" + name +
-                ", birthDate=" + birthDate +
-                ", phone=" + phone +
-                ", lastModified=" + lastModified +
+                ", name=" + name.get() +
+                ", birthDate=" + birthDate.get() +
+                ", phone=" + phone.get() +
+                ", lastModified=" + lastModified.get() +
                 '}';
     }
 }
