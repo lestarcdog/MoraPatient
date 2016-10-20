@@ -28,7 +28,8 @@ public class PatientDataController implements Initializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(PatientDataController.class);
 
-    private static final Pattern PHONE_PATTERN = Pattern.compile("^[\\d-\\s.]+$");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^[\\d-\\s.\\/]+$");
+    public static final String ERROR_CSS = "error";
 
     @Autowired
     private SceneManager sceneManager;
@@ -121,11 +122,11 @@ public class PatientDataController implements Initializable {
     }
 
     private void addError(Node node) {
-        node.getStyleClass().add("error");
+        node.getStyleClass().add(ERROR_CSS);
     }
 
     private void removeError(Node node) {
-        node.getStyleClass().remove("error");
+        node.getStyleClass().remove(ERROR_CSS);
     }
 
 

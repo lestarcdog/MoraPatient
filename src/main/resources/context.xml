@@ -8,9 +8,13 @@
     <context:property-placeholder location="/main.properties"/>
 
     <bean id="sceneManager" class="hu.mora.scene.SceneManager"/>
+    <bean id="fxmlLoader" class="hu.mora.springloader.SpringFxmlLoader"/>
     <bean id="appContext" class="hu.mora.context.ApplicationUserContext"/>
 
     <!-- Page Controllers -->
+    <bean id="app.main.controller" class="hu.mora.pages.AppContentManager"/>
+    <bean id="app.menu.controller" class="hu.mora.pages.MenuController"/>
+
     <bean id="login.controller" class="hu.mora.pages.login.LoginController"/>
     <bean id="patient.list.controller" class="hu.mora.pages.patient.ListPatientsController"/>
     <bean id="patient.data.controller" class="hu.mora.pages.patient.PatientDataController"/>
