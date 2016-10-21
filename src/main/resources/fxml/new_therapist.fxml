@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane fx:controller="hu.mora.pages.patient.NewTherapistController"
+          xmlns:fx="http://javafx.com/fxml" hgap="15" vgap="10" alignment="TOP_CENTER">
+    <padding>
+        <Insets top="20"/>
+    </padding>
+
+    <Label text="Új terapeuta" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField fx:id="name" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+    <Label fx:id="errorMessage" text="A terapeuta neve nem lehet üres." visible="false" GridPane.rowIndex="1"
+           GridPane.columnSpan="2"
+           GridPane.columnIndex="0" styleClass="errorText"/>
+
+    <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2">
+        <Button text="Mentés" styleClass="btn-primary" onAction="#save"/>
+        <Button text="Mégse" styleClass="btn-default" onAction="#cancel"/>
+    </HBox>
+
+</GridPane>

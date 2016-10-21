@@ -1,6 +1,7 @@
 package hu.mora.pages.patient;
 
 import com.google.common.base.Strings;
+import hu.mora.context.ApplicationUserContext;
 import hu.mora.model.PatientData;
 import hu.mora.scene.AppScene;
 import hu.mora.scene.SceneManager;
@@ -29,7 +30,10 @@ public class PatientDataController implements Initializable {
     private static final Logger LOG = LoggerFactory.getLogger(PatientDataController.class);
 
     private static final Pattern PHONE_PATTERN = Pattern.compile("^[\\d-\\s.\\/]+$");
-    public static final String ERROR_CSS = "error";
+    private static final String ERROR_CSS = "error";
+
+    @Autowired
+    private ApplicationUserContext userContext;
 
     @Autowired
     private SceneManager sceneManager;
@@ -56,10 +60,15 @@ public class PatientDataController implements Initializable {
     private TextField phone;
 
     @FXML
+    private TextField email;
+
+    @FXML
     private ComboBox<String> city;
 
     @FXML
     private TextField street;
+
+    private boolean isEditMode = false;
 
 
     @Override
@@ -83,6 +92,32 @@ public class PatientDataController implements Initializable {
         city.setItems(FXCollections.observableArrayList("aa", "aaaa", "bbb", "ccc", "csabi", "móczy", "AAAA", "bbb"));
 
         FXUtils.autoCompleteComboBoxPlus(city, (typedText, objectToCompare) -> objectToCompare.toLowerCase().startsWith(typedText));
+
+        loadUserFromAppContext();
+    }
+
+    private void loadUserFromAppContext() {
+        PatientData patient = userContext.getCurrentPatient();
+        if (patient != null) {
+            isEditMode = true;
+            name.setText(patient.getName());
+            for (Toggle tg : gender.getToggles()) {
+                RadioButton btn = (RadioButton) tg;
+                if (btn.getText().equalsIgnoreCase(GenderRadioButtonText.MALE)) {
+                    btn.setSelected(patient.getMale());
+                } else {
+                    btn.setSelected(!patient.getMale());
+                }
+            }
+            birthDate.setValue(patient.getBirthDate());
+            phone.setText(patient.getPhone());
+            email.setText(patient.getEmail());
+            city.setValue(patient.getCity());
+            street.setText(patient.getStreet());
+
+            userContext.setCurrentPatient(null);
+
+        }
     }
 
     private boolean validate() {
@@ -146,6 +181,11 @@ public class PatientDataController implements Initializable {
         patient.setMale(isMale);
 
         patient.setPhone(phone.getText());
+
+        String email = this.email.getText();
+        if (Strings.isNullOrEmpty(email)) {
+            patient.setEmail(email);
+        }
 
         String city = this.city.getValue();
         if (!Strings.isNullOrEmpty(city)) {

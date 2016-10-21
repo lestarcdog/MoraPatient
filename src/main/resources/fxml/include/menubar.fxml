@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.*?>
 <MenuBar fx:id="mainMenu" fx:controller="hu.mora.pages.MenuController" xmlns:fx="http://javafx.com/fxml">
     <menus>
-        <Menu text="Új beteg"/>
-        <Menu text="Beteglista"/>
+        <Menu text="Műveletek">
+            <items>
+                <MenuItem text="Új beteg" onAction="#gotoNewPatient"/>
+                <MenuItem text="Beteglist" onAction="#gotoPatientList"/>
+                <MenuItem text="Kilépés" onAction="#exit"/>
+            </items>
+        </Menu>
+        <Menu text="Egyéb">
+            <items>
+                <MenuItem text="Új terapeuta" onAction="#newTherapist"/>
+            </items>
+        </Menu>
     </menus>
 </MenuBar>

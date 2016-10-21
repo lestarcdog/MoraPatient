@@ -1,5 +1,6 @@
 package hu.mora.context;
 
+import hu.mora.model.PatientData;
 import hu.mora.model.views.LoginTherapist;
 
 import java.util.Objects;
@@ -7,7 +8,7 @@ import java.util.Objects;
 public class ApplicationUserContext {
 
     private LoginTherapist currentTherapist;
-    private Integer patientId;
+    private PatientData currentPatient;
 
     public LoginTherapist getCurrentTherapist() {
         return currentTherapist;
@@ -17,11 +18,11 @@ public class ApplicationUserContext {
         this.currentTherapist = Objects.requireNonNull(currentTherapist);
     }
 
-    public Integer getPatientId() {
-        return patientId;
+    public PatientData getCurrentPatient() {
+        return currentPatient;
     }
 
-    public void setPatientId(Integer patientId) {
-        this.patientId = Objects.requireNonNull(patientId);
+    public void setCurrentPatient(PatientData currentPatient) {
+        this.currentPatient = Objects.requireNonNull(currentPatient);
     }
 }

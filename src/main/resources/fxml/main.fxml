@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <BorderPane fx:controller="hu.mora.pages.AppContentManager" stylesheets="@/fxml/main.css"
-            xmlns:fx="http://javafx.com/fxml">
+            xmlns:fx="http://javafx.com/fxml" prefHeight="600" prefWidth="1000">
+    <top>
+        <HBox fx:id="menuContainer">
+            <fx:include source="/fxml/include/menubar.fxml" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
 
-    <HBox BorderPane.alignment="TOP_CENTER">
-        <fx:include source="/fxml/include/menubar.fxml"/>
-    </HBox>
-
-    <HBox fx:id="contentArea" BorderPane.alignment="CENTER"></HBox>
+    <center>
+        <HBox fx:id="contentArea"></HBox>
+    </center>
 
 </BorderPane>

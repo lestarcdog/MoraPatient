@@ -53,6 +53,8 @@ public class SceneManager {
         InputStream sceneFxml = SceneManager.class.getResourceAsStream(appScene.getFxmlPath());
         Parent parent = fxmlLoader.load(sceneFxml);
 
+        appContentManager.menuVisibility(!appScene.equals(AppScene.LOGIN));
+
         mainStage.setTitle(appScene.getSceneTitle());
         appContentManager.showMainContent(parent);
 
@@ -62,4 +64,11 @@ public class SceneManager {
 
     }
 
+    public void showError(String errorMessage) {
+        LOG.error(errorMessage);
+    }
+
+    public void showSuccess(String successMessage) {
+        LOG.info(successMessage);
+    }
 }

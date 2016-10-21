@@ -4,7 +4,7 @@ public enum AppScene {
     LOGIN("login", "Bejelentkezés"),
     PATIENT_DATA("patient_data", "Beteg adatai"),
     LIST_PATIENT("list_patient", "Betegek"),
-    PATIENT_THERAPY("patient_therapy", "Beteg terápiái");
+    PATIENT_THERAPY("patient_therapy", "Beteg terápiái"), NEW_THERAPIST("new_therapist", "Új terapeuta");
 
     private static final String PATH_PREFIX = "/fxml/";
     private static final String PATH_POSTFIX = ".fxml";

@@ -1,6 +1,7 @@
 package hu.mora.pages.login;
 
 import hu.mora.context.ApplicationUserContext;
+import hu.mora.dao.ApplicationDao;
 import hu.mora.model.views.LoginTherapist;
 import hu.mora.scene.AppScene;
 import hu.mora.scene.SceneManager;
@@ -35,6 +36,9 @@ public class LoginController implements Initializable {
     private SceneManager sceneManager;
 
     @Autowired
+    private ApplicationDao dao;
+
+    @Autowired
     private ApplicationUserContext userContext;
 
     @Override
@@ -51,9 +55,8 @@ public class LoginController implements Initializable {
             }
         });
 
-        //load data from database
-        ObservableList<LoginTherapist> therapists = FXCollections.observableArrayList(new LoginTherapist(1, "Csabi"), new LoginTherapist
-                (2, "Dr. Juharos Ágota"));
+        ObservableList<LoginTherapist> therapists = FXCollections.observableArrayList(dao.listTherapists());
+
         loginTherapist.setItems(therapists);
         loginTherapist.setPromptText("Kérem válasszon");
 

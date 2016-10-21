@@ -1,7 +1,8 @@
 package hu.mora.pages.patient;
 
 import hu.mora.context.ApplicationUserContext;
-import hu.mora.model.views.ListPatient;
+import hu.mora.model.PatientData;
+import hu.mora.model.PatientData.DB_COLUMN;
 import hu.mora.scene.AppScene;
 import hu.mora.scene.SceneManager;
 import javafx.collections.FXCollections;
@@ -20,10 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ResourceBundle;
-import java.util.stream.IntStream;
 
 public class ListPatientsController implements Initializable {
 
@@ -33,7 +31,7 @@ public class ListPatientsController implements Initializable {
     private TextField searchField;
 
     @FXML
-    private TableView<ListPatient> patientTable;
+    private TableView<PatientData> patientTable;
 
     @Autowired
     private ApplicationUserContext userContext;
@@ -43,33 +41,27 @@ public class ListPatientsController implements Initializable {
 
     private String lastSearch;
 
-    private FilteredList<ListPatient> filteredPatients;
+    private FilteredList<PatientData> filteredPatients;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ObservableList<ListPatient> items = FXCollections.observableArrayList();
-        IntStream.range(0, 20).forEach(i -> {
-            items.addAll(
-                    new ListPatient(1, "csabi", LocalDate.now(), "1234-45987", LocalDateTime.now()),
-                    new ListPatient(2, "dr juharos ágota", LocalDate.now(), "1234-45987", LocalDateTime.now()),
-                    new ListPatient(3, "móczy a kutya", LocalDate.now(), "1234-45987", LocalDateTime.now()));
-        });
+        ObservableList<PatientData> items = FXCollections.observableArrayList();
 
-        TableColumn<ListPatient, String> nameColumn = new TableColumn<>("Név");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>(ListPatient.NAME_COLUMN));
+        TableColumn<PatientData, String> nameColumn = new TableColumn<>("Név");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>(DB_COLUMN.name.name()));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        TableColumn<ListPatient, String> birthDateColumn = new TableColumn<>("Születési idő");
-        birthDateColumn.setCellValueFactory(new PropertyValueFactory<>(ListPatient.BIRTH_DATE_COLUMN));
+        TableColumn<PatientData, String> birthDateColumn = new TableColumn<>("Születési idő");
+        birthDateColumn.setCellValueFactory(new PropertyValueFactory<>(DB_COLUMN.birthDate.name()));
 
-        TableColumn<ListPatient, String> phoneColumn = new TableColumn<>("Telefonszám");
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<>(ListPatient.PHONE_COLUMN));
+        TableColumn<PatientData, String> phoneColumn = new TableColumn<>("Telefonszám");
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>(DB_COLUMN.phone.name()));
 
-        TableColumn<ListPatient, String> lastModifiedColumn = new TableColumn<>("Utolsó módosítés");
-        lastModifiedColumn.setCellValueFactory(new PropertyValueFactory<>(ListPatient.LAST_MOD_COLUMN));
+        TableColumn<PatientData, String> lastModifiedColumn = new TableColumn<>("Utolsó módosítés");
+        lastModifiedColumn.setCellValueFactory(new PropertyValueFactory<>(DB_COLUMN.lastModified.name()));
 
-        TableColumn<ListPatient, String> actionsColumn = new TableColumn<>("Műveletek");
+        TableColumn<PatientData, String> actionsColumn = new TableColumn<>("Műveletek");
         actionsColumn.setCellFactory(param -> new ActionButtons());
 
         patientTable.setEditable(true);
@@ -83,7 +75,7 @@ public class ListPatientsController implements Initializable {
         sceneManager.showScene(AppScene.PATIENT_DATA);
     }
 
-    private class ActionButtons extends TableCell<ListPatient, String> {
+    private class ActionButtons extends TableCell<PatientData, String> {
 
         private final Button editUser;
         private final Button goTherapy;
@@ -95,13 +87,13 @@ public class ListPatientsController implements Initializable {
 
 
             goTherapy.setOnAction(action -> {
-                ListPatient patient = currentPatient();
+                PatientData patient = currentPatient();
                 LOG.debug("Therapy action for {}", patient);
                 sceneManager.showScene(AppScene.PATIENT_THERAPY);
 
             });
             editUser.setOnAction(action -> {
-                ListPatient patient = currentPatient();
+                PatientData patient = currentPatient();
                 LOG.debug("Edit action for {}", patient);
                 sceneManager.showScene(AppScene.PATIENT_DATA);
             });
@@ -112,9 +104,9 @@ public class ListPatientsController implements Initializable {
 
         }
 
-        private ListPatient currentPatient() {
-            ListPatient patient = (ListPatient) getTableRow().getItem();
-            userContext.setPatientId(patient.getId());
+        private PatientData currentPatient() {
+            PatientData patient = (PatientData) getTableRow().getItem();
+            userContext.setCurrentPatient(patient);
             return patient;
         }
 
@@ -133,7 +125,7 @@ public class ListPatientsController implements Initializable {
         String currentSearch = searchField.getText();
         if (lastSearch == null || !lastSearch.equalsIgnoreCase(currentSearch)) {
             lastSearch = currentSearch.toLowerCase();
-            filteredPatients.setPredicate(lp -> lp.getSmallCapitalName().contains(lastSearch));
+            filteredPatients.setPredicate(patient -> patient.getName().toLowerCase().contains(lastSearch));
         }
     }
 }

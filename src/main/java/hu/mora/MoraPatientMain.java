@@ -16,7 +16,13 @@ public class MoraPatientMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         SceneManager sceneManager = CTX.getBean(SceneManager.class);
+
+        Thread.setDefaultUncaughtExceptionHandler((t, exception) -> {
+            LOG.error(exception.getMessage(), exception);
+            sceneManager.showError("A művelet nem sikerült. Hiba történt: " + exception.getMessage());
+        });
         sceneManager.setMainStage(primaryStage);
+
     }
 
 
