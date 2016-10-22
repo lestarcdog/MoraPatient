@@ -19,10 +19,12 @@ import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@Controller
 public class ListPatientsController implements Initializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(ListPatientsController.class);

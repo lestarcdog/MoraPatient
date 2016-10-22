@@ -16,12 +16,14 @@ import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import static java.util.Objects.requireNonNull;
 
+@Controller
 public class LoginController implements Initializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);

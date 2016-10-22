@@ -21,7 +21,7 @@ public class MoraPatientMain extends Application {
             LOG.error(exception.getMessage(), exception);
             sceneManager.showError("A művelet nem sikerült. Hiba történt: " + exception.getMessage());
         });
-        sceneManager.setMainStage(primaryStage);
+        sceneManager.setupStage(primaryStage);
 
     }
 

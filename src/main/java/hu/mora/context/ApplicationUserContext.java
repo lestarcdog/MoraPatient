@@ -2,9 +2,11 @@ package hu.mora.context;
 
 import hu.mora.model.PatientData;
 import hu.mora.model.views.LoginTherapist;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+@Component
 public class ApplicationUserContext {
 
     private LoginTherapist currentTherapist;

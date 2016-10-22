@@ -9,10 +9,12 @@ import javafx.scene.layout.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@Controller
 public class AppContentManager implements Initializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppContentManager.class);
@@ -25,6 +27,7 @@ public class AppContentManager implements Initializable {
 
     @FXML
     private Pane contentArea;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,6 +43,4 @@ public class AppContentManager implements Initializable {
         HBox.setHgrow(content, Priority.ALWAYS);
         contentArea.getChildren().add(content);
     }
-
-
 }

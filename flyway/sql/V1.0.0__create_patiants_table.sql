@@ -1,9 +1,9 @@
 CREATE TABLE patients (
   "id"           INT AUTO_INCREMENT PRIMARY KEY,
-  "name"         VARCHAR(255),
-  "ismale"       BOOLEAN,
-  "birthdate"    DATE,
-  "phone"        VARCHAR(20),
+  "name"         VARCHAR(255) NOT NULL,
+  "ismale"       BOOLEAN      NOT NULL,
+  "birthdate"    DATE         NOT NULL,
+  "phone"        VARCHAR(20)  NOT NULL,
   "email"        VARCHAR(50),
   "city"         VARCHAR(50),
   "street"       VARCHAR(150),

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.*?>
 <BorderPane fx:controller="hu.mora.pages.AppContentManager" stylesheets="@/fxml/main.css"
             xmlns:fx="http://javafx.com/fxml" prefHeight="600" prefWidth="1000">
     <top>
@@ -11,7 +10,17 @@
     </top>
 
     <center>
-        <HBox fx:id="contentArea"></HBox>
+        <StackPane>
+            <HBox fx:id="contentArea" StackPane.alignment="CENTER"></HBox>
+
+            <!--user notification area-->
+            <fx:include source="/fxml/include/usernotification.fxml" StackPane.alignment="BOTTOM_RIGHT"/>
+
+        </StackPane>
     </center>
+
+    <bottom>
+
+    </bottom>
 
 </BorderPane>

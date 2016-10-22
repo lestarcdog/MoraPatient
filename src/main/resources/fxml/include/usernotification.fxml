@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<FlowPane xmlns:fx="http://javafx.com/fxml" fx:controller="hu.mora.pages.UserNotificationController" maxWidth="300"
+          maxHeight="150">
+
+    <fx:define>
+        <Insets fx:id="defPadding" top="10" bottom="10" left="15" right="5"/>
+    </fx:define>
+
+    <GridPane fx:id="errorMessageBox" visible="false" maxHeight="150" vgap="15" padding="$defPadding">
+        <Button GridPane.halignment="RIGHT" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Bezár"
+                onAction="#closeErrorBox"/>
+        <Label fx:id="errorMessageText" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    </GridPane>
+    <HBox fx:id="successMessageBox" visible="false" padding="$defPadding">
+        <Label fx:id="successMessageText"/>
+    </HBox>
+</FlowPane>

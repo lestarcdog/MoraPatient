@@ -2,6 +2,7 @@ package hu.mora.pages.patient;
 
 import com.google.common.base.Strings;
 import hu.mora.context.ApplicationUserContext;
+import hu.mora.dao.ApplicationDao;
 import hu.mora.model.PatientData;
 import hu.mora.scene.AppScene;
 import hu.mora.scene.SceneManager;
@@ -18,6 +19,7 @@ import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ import java.time.temporal.TemporalQueries;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+@Controller
 public class PatientDataController implements Initializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(PatientDataController.class);
@@ -37,6 +40,9 @@ public class PatientDataController implements Initializable {
 
     @Autowired
     private SceneManager sceneManager;
+
+    @Autowired
+    private ApplicationDao dao;
 
     @FXML
     private Label invalidFormText;
@@ -169,6 +175,7 @@ public class PatientDataController implements Initializable {
         if (validate()) {
             PatientData patient = createPatientFromInput();
             LOG.info("Saving patient data {}", patient);
+            dao.saveNewPatient(patient);
         }
     }
 

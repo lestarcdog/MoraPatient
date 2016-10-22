@@ -4,34 +4,9 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:annotation-config></context:annotation-config>
+    <context:component-scan base-package="hu.mora" annotation-config="true"/>
+
     <context:property-placeholder location="/main.properties"/>
-
-    <bean id="sceneManager" class="hu.mora.scene.SceneManager"/>
-    <bean id="fxmlLoader" class="hu.mora.springloader.SpringFxmlLoader"/>
-    <bean id="appContext" class="hu.mora.context.ApplicationUserContext"/>
-
-    <!-- Page Controllers -->
-    <bean id="app.main.controller" class="hu.mora.pages.AppContentManager"/>
-    <bean id="app.menu.controller" class="hu.mora.pages.MenuController"/>
-
-    <bean id="login.controller" class="hu.mora.pages.login.LoginController"/>
-    <bean id="patient.list.controller" class="hu.mora.pages.patient.ListPatientsController"/>
-    <bean id="patient.data.controller" class="hu.mora.pages.patient.PatientDataController"/>
-    <bean id="patient.therapist.controller" class="hu.mora.pages.patient.NewTherapistController"/>
-
-
-    <!--App Java FX Services-->
-
-
-    <bean id="taskexecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-        <property name="maxPoolSize" value="2"/>
-    </bean>
-
-    <!-- DAO -->
-    <bean id="personDao" class="hu.mora.dao.ApplicationDao">
-        <constructor-arg name="jdbc" ref="jdbcTemplate"/>
-    </bean>
 
 
     <bean id="datasource" class="org.h2.jdbcx.JdbcDataSource">
