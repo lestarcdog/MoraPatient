@@ -18,6 +18,7 @@ public class PatientDataMapper implements RowMapper<PatientData> {
         pd.setEmail(rs.getString("email"));
         pd.setCity(rs.getString("city"));
         pd.setStreet(rs.getString("street"));
+        pd.setLastModified(rs.getTimestamp("lastmodified").toLocalDateTime());
 
         return pd;
     }

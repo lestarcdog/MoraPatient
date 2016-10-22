@@ -1,0 +1,1 @@
+java -cp config/;moraPatients.jar hu.mora.MoraPatientMain

@@ -1,10 +1,13 @@
 package hu.mora.pages.patient;
 
 import hu.mora.context.ApplicationUserContext;
+import hu.mora.dao.ApplicationDao;
 import hu.mora.model.PatientData;
 import hu.mora.model.PatientData.DB_COLUMN;
 import hu.mora.scene.AppScene;
 import hu.mora.scene.SceneManager;
+import hu.mora.util.DateFormats;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -41,34 +44,43 @@ public class ListPatientsController implements Initializable {
     @Autowired
     private SceneManager sceneManager;
 
+    @Autowired
+    private ApplicationDao dao;
+
     private String lastSearch;
 
     private FilteredList<PatientData> filteredPatients;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setupTableColumns();
+        loadPatientList();
+    }
 
-        ObservableList<PatientData> items = FXCollections.observableArrayList();
-
+    private void setupTableColumns() {
         TableColumn<PatientData, String> nameColumn = new TableColumn<>("Név");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>(DB_COLUMN.name.name()));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameColumn.setSortable(true);
 
         TableColumn<PatientData, String> birthDateColumn = new TableColumn<>("Születési idő");
-        birthDateColumn.setCellValueFactory(new PropertyValueFactory<>(DB_COLUMN.birthDate.name()));
+        birthDateColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getBirthDate().format(DateFormats.BIRTHDAY)));
 
         TableColumn<PatientData, String> phoneColumn = new TableColumn<>("Telefonszám");
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>(DB_COLUMN.phone.name()));
 
         TableColumn<PatientData, String> lastModifiedColumn = new TableColumn<>("Utolsó módosítés");
-        lastModifiedColumn.setCellValueFactory(new PropertyValueFactory<>(DB_COLUMN.lastModified.name()));
+        lastModifiedColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getLastModified().format(DateFormats.DATETIME)));
 
         TableColumn<PatientData, String> actionsColumn = new TableColumn<>("Műveletek");
         actionsColumn.setCellFactory(param -> new ActionButtons());
 
         patientTable.setEditable(true);
         patientTable.getColumns().addAll(nameColumn, birthDateColumn, phoneColumn, lastModifiedColumn, actionsColumn);
+    }
 
+    private void loadPatientList() {
+        ObservableList<PatientData> items = FXCollections.observableArrayList(dao.allPatients());
         filteredPatients = new FilteredList<>(items);
         patientTable.setItems(filteredPatients);
     }
