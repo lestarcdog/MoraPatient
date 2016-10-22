@@ -7,10 +7,9 @@
     -fx-border-width: 2px;
 }
 
-#errorMessageBox Label, #successMessageBox Label {
-    -fx-text-fill: #ffffff;
+#errorMessageBox, #successMessageBox {
+    -fx-opacity: 0.7;
 }
-
 #errorMessageBox {
     -fx-background-color: #d2322d;
     -fx-border-color: #ac2925;
@@ -23,6 +22,10 @@
 #successMessageBox {
     -fx-background-color: #5cb85c;
     -fx-border-color: #4cae4c;
+}
+
+#errorMessageBox Label, #successMessageBox Label {
+    -fx-text-fill: #ffffff;
 }
 
 /* Bootstrap style */

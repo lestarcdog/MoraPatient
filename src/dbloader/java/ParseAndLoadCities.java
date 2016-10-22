@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+import static java.lang.String.format;
+
 public class ParseAndLoadCities {
     public static void main(String[] args) throws FileNotFoundException {
         Set<String> cities = new HashSet<>();
@@ -18,6 +20,7 @@ public class ParseAndLoadCities {
         }
 
         System.out.println(cities.size());
-        cities.forEach(System.out::println);
+        String tmpl = "INSERT INTO cities(name) VALUES('%s');";
+        cities.forEach(city -> System.out.println(format(tmpl, city)));
     }
 }

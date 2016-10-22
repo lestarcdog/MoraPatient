@@ -20,8 +20,10 @@ public class ApplicationUserContext {
         this.currentTherapist = Objects.requireNonNull(currentTherapist);
     }
 
-    public PatientData getCurrentPatient() {
-        return currentPatient;
+    public PatientData readCurrentPatientOnce() {
+        PatientData patient = this.currentPatient;
+        currentPatient = null;
+        return patient;
     }
 
     public void setCurrentPatient(PatientData currentPatient) {

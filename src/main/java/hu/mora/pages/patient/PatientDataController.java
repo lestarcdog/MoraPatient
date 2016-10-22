@@ -9,6 +9,7 @@ import hu.mora.scene.SceneManager;
 import hu.mora.util.DateFormats;
 import hu.mora.util.FXUtils;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,6 +35,8 @@ public class PatientDataController implements Initializable {
 
     private static final Pattern PHONE_PATTERN = Pattern.compile("^[\\d-\\s.\\/]+$");
     private static final String ERROR_CSS = "error";
+
+    private ObservableList<String> hungarianCities;
 
     @Autowired
     private ApplicationUserContext userContext;
@@ -95,15 +98,16 @@ public class PatientDataController implements Initializable {
             }
         });
 
-        city.setItems(FXCollections.observableArrayList("aa", "aaaa", "bbb", "ccc", "csabi", "móczy", "AAAA", "bbb"));
-
+        hungarianCities = FXCollections.observableList(dao.allHungarianCity());
+        city.setItems(hungarianCities);
         FXUtils.autoCompleteComboBoxPlus(city, (typedText, objectToCompare) -> objectToCompare.toLowerCase().startsWith(typedText));
 
         loadUserFromAppContext();
+
     }
 
     private void loadUserFromAppContext() {
-        PatientData patient = userContext.getCurrentPatient();
+        PatientData patient = userContext.readCurrentPatientOnce();
         if (patient != null) {
             isEditMode = true;
             name.setText(patient.getName());
@@ -120,8 +124,6 @@ public class PatientDataController implements Initializable {
             email.setText(patient.getEmail());
             city.setValue(patient.getCity());
             street.setText(patient.getStreet());
-
-            userContext.setCurrentPatient(null);
 
         }
     }

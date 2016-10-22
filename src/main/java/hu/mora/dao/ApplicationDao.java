@@ -5,6 +5,8 @@ import hu.mora.dao.mapper.PatientDataMapper;
 import hu.mora.dao.mapper.TherapistMapper;
 import hu.mora.model.PatientData;
 import hu.mora.model.views.LoginTherapist;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
@@ -22,19 +24,23 @@ public class ApplicationDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationDao.class);
 
+    //sql
     private static final String ALL_PATIENTS = "select * from patients";
     private static final String INSERT_NEW_THERAPIST = "INSERT INTO therapists(\"name\") VALUES (:name)";
 
     private static final String INSERT_PATIENT = "INSERT INTO patients(\"name\",\"ismale\",\"birthdate\",\"phone\",\"email\",\"city\",\"street\",\"lastmodified\")" +
             " VALUES (:name,:male,:birthDate,:phone,:email,:city,:street,:lastModified)";
 
+    private static final String ALL_HUN_CITIES = "SELECT name FROM cities ORDER BY name";
+
     private static final String LIST_THERAPISTS = "select * from therapists";
 
+    //mappers
     private static final PatientDataMapper PATIENT_MAPPER = new PatientDataMapper();
     private static final TherapistMapper THERAPIST_MAPPER = new TherapistMapper();
 
     private final NamedParameterJdbcTemplate jdbc;
-
+    private ObservableList<String> cachedHungarianCities;
 
     public ApplicationDao(NamedParameterJdbcTemplate jdbc) {
         this.jdbc = jdbc;
@@ -72,6 +78,16 @@ public class ApplicationDao {
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             return false;
+        }
+    }
+
+    public synchronized List<String> allHungarianCity() {
+        if (cachedHungarianCities == null) {
+            List<String> cities = jdbc.queryForList(ALL_HUN_CITIES, EmptySqlParameterSource.INSTANCE, String.class);
+            cachedHungarianCities = FXCollections.observableArrayList(cities);
+            return cachedHungarianCities;
+        } else {
+            return cachedHungarianCities;
         }
     }
 
